@@ -1,6 +1,6 @@
 {
-  "name": "",
-  "description": "",
+  "name": "Point of Sale (POS) System",
+  "description": "An offline-first Point of Sale application integrated with Firebase Firestore and Authentication.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
