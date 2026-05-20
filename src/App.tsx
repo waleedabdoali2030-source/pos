@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { Layout } from "./Layout";
 import { POS } from "./pages/POS";
 import { Transactions } from "./pages/Transactions";
@@ -9,7 +9,7 @@ import { Settings } from "./pages/Settings";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<POS />} />
@@ -20,6 +20,6 @@ export default function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
