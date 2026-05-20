@@ -1,0 +1,112 @@
+{
+  "entities": {
+    "Setting": {
+      "title": "Setting",
+      "description": "Store settings including receipt configuration",
+      "type": "object",
+      "properties": {
+        "storeName": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "taxRate": { "type": "number" },
+        "receiptHeader": { "type": "string" },
+        "receiptFooter": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["storeName", "taxRate", "updatedAt"]
+    },
+    "PaymentMethod": {
+      "title": "PaymentMethod",
+      "description": "Available payment methods",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "type": { "type": "string", "enum": ["cash", "mada", "other"] },
+        "icon": { "type": "string" },
+        "color": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["name", "type", "isActive", "updatedAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product categories",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "color": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["name", "updatedAt"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Products available for sale",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "categoryId": { "type": "string" },
+        "price": { "type": "number" },
+        "barcode": { "type": "string" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["name", "categoryId", "price", "updatedAt"]
+    },
+    "DaySession": {
+      "title": "DaySession",
+      "description": "Daily register sessions",
+      "type": "object",
+      "properties": {
+        "startTime": { "type": "number" },
+        "endTime": { "type": "number" },
+        "status": { "type": "string", "enum": ["open", "closed"] },
+        "totalSales": { "type": "number" },
+        "totalInvoices": { "type": "number" }
+      },
+      "required": ["startTime", "status", "totalSales", "totalInvoices"]
+    },
+    "Invoice": {
+      "title": "Invoice",
+      "description": "Generated invoices/receipts",
+      "type": "object",
+      "properties": {
+        "sequenceNumber": { "type": "number" },
+        "sessionId": { "type": "string" },
+        "date": { "type": "number" },
+        "subtotal": { "type": "number" },
+        "taxAmount": { "type": "number" },
+        "total": { "type": "number" },
+        "paymentMethodId": { "type": "string" },
+        "items": { "type": "array" }
+      },
+      "required": ["sequenceNumber", "sessionId", "date", "total", "paymentMethodId"]
+    }
+  },
+  "firestore": {
+    "users/{userId}/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Setting" },
+      "description": "Store settings"
+    },
+    "users/{userId}/payment_methods/{methodId}": {
+      "schema": { "$ref": "#/entities/PaymentMethod" },
+      "description": "Payment methods"
+    },
+    "users/{userId}/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Categories"
+    },
+    "users/{userId}/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Products"
+    },
+    "users/{userId}/day_sessions/{sessionId}": {
+      "schema": { "$ref": "#/entities/DaySession" },
+      "description": "Day sessions"
+    },
+    "users/{userId}/invoices/{invoiceId}": {
+      "schema": { "$ref": "#/entities/Invoice" },
+      "description": "Invoices"
+    }
+  }
+}

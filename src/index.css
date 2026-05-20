@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+@layer utilities {
+  .bento-container {
+    @apply grid gap-4 p-4 h-full;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+  }
+  .card {
+    @apply bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col;
+  }
+  .receipt-paper {
+    @apply bg-white relative shadow-md p-6 mx-auto w-64 max-w-full;
+  }
+  .receipt-paper::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    right: 0;
+    height: 10px;
+    background: linear-gradient(-45deg, #fff 5px, transparent 0), linear-gradient(45deg, #fff 5px, transparent 0);
+    background-size: 10px 10px;
+  }
+  .mono {
+    @apply font-mono text-xs;
+  }
+  .nav-link {
+    @apply flex items-center gap-2 px-4 py-2 rounded-lg transition-all text-slate-600 font-medium;
+  }
+  .nav-link.active {
+    @apply bg-blue-50 text-blue-600;
+  }
+  .num-btn {
+    @apply w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center font-semibold text-xl cursor-pointer transition-colors hover:bg-slate-50 active:bg-slate-100;
+  }
+}
+
+
+@media print {
+  @page {
+    margin: 0 !important;
+    size: auto; /* Allow auto scaling by terminal driver */
+  }
+
+  /* Style body for clean, simple high-contrast thermal layout */
+  body {
+    background-color: #ffffff !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 11px !important;
+    font-family: 'JetBrains Mono', Courier, monospace !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide everything on the whole page during print using visibility */
+  body * {
+    visibility: hidden !important;
+  }
+
+  /* Reveal only the printable receipt paper container and all of its content */
+  .receipt-paper, .receipt-paper * {
+    visibility: visible !important;
+  }
+
+  /* Position the receipt paper cleanly at the top-left of the page so it prints without large blank spacing */
+  .receipt-paper {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 72mm !important; /* Standard printable width for 80mm thermal paper roll */
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 2mm 1mm !important;
+    border: none !important;
+    box-shadow: none !important;
+    font-family: 'JetBrains Mono', Courier, monospace !important;
+    color: #000000 !important;
+    page-break-inside: avoid !important;
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
+  /* Hide the serrated bottom-edge styling on print to keep thermal output clean */
+  .receipt-paper::after {
+    display: none !important;
+    content: none !important;
+  }
+
+  /* Convert borders to clean pure solid or dashed black ink */
+  .border-dashed,
+  .border-b,
+  .border-t,
+  .border-slate-300,
+  .border-slate-200 {
+    border-color: #000000 !important;
+    border-style: dashed !important;
+    opacity: 1 !important;
+  }
+
+  .border-t.border-slate-200 {
+    border-style: solid !important;
+  }
+
+  /* Ensure all child elements are black text and monospace */
+  span, div, p, table, tr, td, th {
+    color: #000000 !important;
+    font-family: 'JetBrains Mono', Courier, monospace !important;
+    font-size: 11px !important;
+    line-height: 1.4 !important;
+  }
+
+  /* QR code alignment and scaling */
+  .receipt-paper svg {
+    margin: 4mm auto !important;
+    display: block !important;
+    width: 32mm !important;
+    height: 32mm !important;
+  }
+}
