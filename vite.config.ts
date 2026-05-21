@@ -1,39 +1,12 @@
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import fs from 'fs';
 import path from 'path';
 import {defineConfig} from 'vite';
-
-// Load Firebase applet configuration dynamically if it exists at project root
-const firebaseConfigPath = path.resolve(__dirname, 'firebase-applet-config.json');
-if (fs.existsSync(firebaseConfigPath)) {
-  try {
-    const firebaseConfig = JSON.parse(fs.readFileSync(firebaseConfigPath, 'utf-8'));
-    process.env.VITE_FIREBASE_PROJECT_ID = firebaseConfig.projectId || '';
-    process.env.VITE_FIREBASE_APP_ID = firebaseConfig.appId || '';
-    process.env.VITE_FIREBASE_API_KEY = firebaseConfig.apiKey || '';
-    process.env.VITE_FIREBASE_AUTH_DOMAIN = firebaseConfig.authDomain || '';
-    process.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID = firebaseConfig.firestoreDatabaseId || '';
-    process.env.VITE_FIREBASE_STORAGE_BUCKET = firebaseConfig.storageBucket || '';
-    process.env.VITE_FIREBASE_MESSAGING_SENDER_ID = firebaseConfig.messagingSenderId || '';
-  } catch (e) {
-    console.error('Error parsing firebase-applet-config.json:', e);
-  }
-}
 
 export default defineConfig(() => {
   return {
     base: './',
     plugins: [react(), tailwindcss()],
-    define: {
-      'import.meta.env.VITE_FIREBASE_PROJECT_ID': JSON.stringify(process.env.VITE_FIREBASE_PROJECT_ID || ''),
-      'import.meta.env.VITE_FIREBASE_APP_ID': JSON.stringify(process.env.VITE_FIREBASE_APP_ID || ''),
-      'import.meta.env.VITE_FIREBASE_API_KEY': JSON.stringify(process.env.VITE_FIREBASE_API_KEY || ''),
-      'import.meta.env.VITE_FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.VITE_FIREBASE_AUTH_DOMAIN || ''),
-      'import.meta.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID': JSON.stringify(process.env.VITE_FIREBASE_FIRESTORE_DATABASE_ID || ''),
-      'import.meta.env.VITE_FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.VITE_FIREBASE_STORAGE_BUCKET || ''),
-      'import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.VITE_FIREBASE_MESSAGING_SENDER_ID || ''),
-    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
